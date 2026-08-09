@@ -1,0 +1,9 @@
+QUESTION:
+The suggested solution did not work. What information should I collect before escalating?
+
+ANSWER:
+I understand; let's get this to a human. Before escalating, please collect exactly the diagnostic packet: (1) the workspace slug and your email, (2) the original suggested solution and the outcome, (3) the run ID or correlation ID from Help -> Diagnostic log, (4) the exact error text / reason code, (5) the workspace timezone and plan. An Agent will need all five items or the escalation is returned.
+
+CLASSIFICATION: requires_escalation
+CONFIDENCE: 0.92
+REQUIRES_HUMAN: True

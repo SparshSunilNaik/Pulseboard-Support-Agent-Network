@@ -1,9 +1,9 @@
 """Automated tests for graph routing & structure WITHOUT any model output.
 
 These assert which nodes exist, which conditional edges were taken, and the
-loop-guard behavior — using the real node code but a scripted model bundle.
-No exact LLM wording is ever asserted; assertions are on node_trace contents
-and classification labels only.
+loop-guard behavior — using the real node code but a scripted model bundle and
+scripted triage labels. No exact LLM wording is ever asserted; assertions are
+on node_trace contents and classification labels only.
 
 Fast, no HF downloads -> doubles as the CI "graph structure" gate.
 """
@@ -17,6 +17,7 @@ import pytest
 
 from support_agent import config
 from support_agent import generation as generation_mod
+from support_agent import triage as triage_mod
 from support_agent.graph import SupportAgentGraph
 
 
@@ -54,11 +55,12 @@ class StubBundle:
 
 def _good_generate(query, evidence, bundle):
     doc = evidence[0]["document"] if evidence else "none"
-    return f"A grounded answer about the user's question. [Source: {doc}]", 0.001
+    snippet = " ".join(evidence[0]["text"].split()[:12]) if evidence else "nothing"
+    return f"A grounded answer drawing on these evidence words: {snippet}. [Source: {doc}]", 0.001
 
 
 def _bad_generate(query, evidence, bundle):
-    return "Ungrounded answer without any source markers at all.", 0.001
+    return "Completely detached jabberwocky about zebras and rainbows, with no source.", 0.001
 
 
 def _labels(out) -> list[str]:
@@ -69,8 +71,15 @@ def _branches(out) -> list[str]:
     return [t.split(":", 1)[1] for t in out.get("node_trace", [])]
 
 
-def _make_graph(monkeypatch, generator):
+def _make_graph(monkeypatch, generator, classify_label: str = "answerable"):
     monkeypatch.setattr(generation_mod, "generate_answer", generator)
+    monkeypatch.setattr(
+        triage_mod,
+        "classify",
+        lambda q, m: triage_mod.TriageResult(
+            label=classify_label, confidence=0.9, method="test-stub", reason="scripted label"
+        ),
+    )
     return SupportAgentGraph(StubBundle(), use_reranker=False)
 
 
@@ -96,7 +105,7 @@ def test_answerable_routing(monkeypatch):
 
 
 def test_out_of_scope_routing(monkeypatch):
-    g = _make_graph(monkeypatch, _good_generate)
+    g = _make_graph(monkeypatch, _good_generate, classify_label="out_of_scope")
     out = g.run("Write a refund for my subscription.")
     assert out["classification"] == "out_of_scope"
     assert _labels(out) == ["triage", "safe_response"]
@@ -104,7 +113,7 @@ def test_out_of_scope_routing(monkeypatch):
 
 
 def test_requires_clarification_routing(monkeypatch):
-    g = _make_graph(monkeypatch, _good_generate)
+    g = _make_graph(monkeypatch, _good_generate, classify_label="requires_clarification")
     out = g.run("Which plan am I on?")
     assert out["classification"] == "requires_clarification"
     assert _labels(out) == ["triage", "safe_response"]
@@ -112,7 +121,7 @@ def test_requires_clarification_routing(monkeypatch):
 
 
 def test_requires_escalation_routing(monkeypatch):
-    g = _make_graph(monkeypatch, _good_generate)
+    g = _make_graph(monkeypatch, _good_generate, classify_label="requires_escalation")
     out = g.run("Please escalate this to a human support agent.")
     assert out["classification"] == "requires_escalation"
     assert _labels(out) == ["triage", "safe_response"]

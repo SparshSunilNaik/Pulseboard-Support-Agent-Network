@@ -121,20 +121,20 @@ def classify(query: str, model) -> TriageResult:
     # 2) Rule signal, if any, wins for the cases classifiers get wrong.
     if rule_label is not None:
         # Hard overrides for clearly out-of-scope/escalation wording.
-        if rule == "out_of_scope" or rule == "requires_escalation":
+        if rule_label == "out_of_scope" or rule_label == "requires_escalation":
             return TriageResult(
-                label=rule,
-                confidence=scores.get(rule, best_sim),
+                label=rule_label,
+                confidence=scores.get(rule_label, best_sim),
                 method="rules",
-                reason=f"matched rule {rule!r} (deterministic)",
+                reason=f"matched rule {rule_label!r} (deterministic)",
             )
         # Clarification requests win when the "which plan/version" wording is
         # present even if similarity leans answerable.
         return TriageResult(
-            label=rule,
+            label=rule_label,
             confidence=scores.get("requires_clarification", best_sim),
             method="rules",
-            reason=f"matched rule {rule!r} (requires plan/version disambiguation)",
+            reason=f"matched rule {rule_label!r} (requires plan/version disambiguation)",
         )
 
     # 3) Confidence floor: if nothing strongly matches one of the tags, ask

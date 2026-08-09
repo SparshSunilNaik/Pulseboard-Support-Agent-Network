@@ -1,0 +1,18 @@
+{
+  "classification": "out_of_scope",
+  "answer": "I can't take that action: 'Write a refund for my subscription.' is outside what Pulseboard Support can do. Refunds and account changes are handled by our billing team and are never issued directly by automated support. Please open a billing ticket via Settings -> Billing, or email billing@pulseboard.example. A human will follow up.",
+  "sources": [
+    {
+      "document": "billing-subscriptions.md",
+      "passage": "Refunds and invoices"
+    }
+  ],
+  "confidence": 0.95,
+  "requires_human": true,
+  "reason": "matched rule 'out_of_scope' (deterministic)",
+  "content_warning": "This is a safe-response path; no grounding retrieval ran.",
+  "node_trace": [
+    "triage:out_of_scope",
+    "safe_response:out_of_scope"
+  ]
+}

@@ -1,0 +1,21 @@
+QUESTION:
+My scheduled exports stopped after I changed my workspace timezone. What should I check?
+
+ANSWER:
+First, open the export config and confirm the normalized next-run time in the new timezone. Then, confirm the source report still exists and is accessible. Next, confirm destination credentials are valid. Finally, re-enable if it was auto-paused, then Save to recompute the schedule. After saving, exports that were silent-start paused are re-scheduled and resume from the next valid slot rather than backfilling. [7] (workspace-settings.md / Why did my scheduled exports stop?)
+Solutions:
+  * Change the workspace timezone to match the new timezone.
+  * Check the source report and ensure it still exists and is accessible.
+  * Verify the destination credentials are valid.
+  * Enable automatic pause/resume of scheduled exports.
+  * Save the export configuration and recompute the schedule.
+  * Re-enable scheduled exports.
+  * Ensure the workspace timezone matches the new timezone.
+  * Verify that the source report is still accessible and that the destination credentials are valid. [8] (workspace-settings.md / Troubleshooting schedule issues)
+
+scheduled-exports.md; resolved_cases.json; workspace-settings.md; data-retention.md; notifications.md.
+[Source: scheduled-exports.md, resolved_cases.json, workspace-settings.md, data-retention.md, notifications.md]
+
+CLASSIFICATION: answerable
+CONFIDENCE: 0.97
+REQUIRES_HUMAN: False

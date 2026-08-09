@@ -86,9 +86,15 @@ def check_answer(answer: str, evidence: list[dict]) -> dict:
     checks["no_invented_instructions"] = len(invented) == 0
     checks["invented_tokens"] = invented
 
-    # Aggregate.
-    honest_keys = [k for k in checks if not k.endswith("_list") and not k.endswith("_tokens")]
-    fail_keys = [k for k in honest_keys if checks[k] is False]
+    # Aggregate. Sub-metrics (names ending in _minsubset/_frac) are reported
+    # but not gated independently - only the parent check decides.
+    gated = {
+        k for k in checks
+        if not k.endswith("_list")
+        and not k.endswith("_tokens")
+    }
+    gated -= {"lexical_grounding_minshared", "lexical_grounding_frac"}
+    fail_keys = [k for k in gated if checks[k] is False]
     passed = len(fail_keys) == 0
 
     return {

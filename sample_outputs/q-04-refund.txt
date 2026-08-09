@@ -1,0 +1,9 @@
+QUESTION:
+Write a refund for my subscription.
+
+ANSWER:
+I can't take that action: 'Write a refund for my subscription.' is outside what Pulseboard Support can do. Refunds and account changes are handled by our billing team and are never issued directly by automated support. Please open a billing ticket via Settings -> Billing, or email billing@pulseboard.example. A human will follow up.
+
+CLASSIFICATION: out_of_scope
+CONFIDENCE: 0.95
+REQUIRES_HUMAN: True

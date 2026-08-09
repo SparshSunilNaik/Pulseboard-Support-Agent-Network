@@ -1,0 +1,9 @@
+QUESTION:
+How do I get my report to arrive every Monday? I heard exports are possible, is that on my plan?
+
+ANSWER:
+To help you accurately, I need a bit more context. Which Pulseboard workspace are you referring to, and which plan is it on (Starter, Workspace, Enterprise)? Knowing the plan and feature you mean lets me give a precise answer — describing the plan often decides whether something like exports or data retention applies.
+
+CLASSIFICATION: requires_clarification
+CONFIDENCE: 0.6
+REQUIRES_HUMAN: True

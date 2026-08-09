@@ -50,7 +50,11 @@ def build_prompt(query: str, evidence: list[dict]) -> str:
         "1. Start directly with the answer. Do NOT repeat the context, do NOT "
         "add prefaces, labels, headers, notes, or a 'conclusion' section, and "
         "do not add chatter after the final sentence.\n"
-        "2. Never invent instructions, credentials, pricing, or features.\n"
+        "2. Never invent instructions, credentials, pricing, or features. If a "
+        "resolved case in the context records the actual outcome, reflect it "
+        "faithfully (including negative answers like 'no, read-only users "
+        "cannot do that'). Answer facts as the documents state them, even if "
+        "that means telling the user 'no'.\n"
         "3. If the context does not contain the answer, say so in one sentence "
         "and suggest a human follow-up.\n"
         "4. Answer the reader faithfully; stop when done.\n"
@@ -101,17 +105,30 @@ def generate_answer(query: str, evidence: list[dict], bundle, seed: int | None =
 def _cleanup(text: str) -> str:
     """Remove common 0.5B-model meta-chatter wrappers."""
     text = text.strip()
-    text = re.sub(r"^(Answer|Response|Output|Here is|Sure|Great)[:.\s]*", "", text, flags=re.I).strip()
+    text = re.sub(r"^(Answer|Response|Output|Here is|Sure|Great)[.\s]*", "", text, flags=re.I).strip()
     text = re.sub(r"\n?\[?[Ss]ource:\s*none\]?\s*$", "", text).strip()
-    # cut any trailing meta-sections the small model likes to add
+    # cut off trailing meta commentary the small model likes to add
     cut = re.split(
-        r"\b(Note|Follow\-?up|Explanation|Conclusion|Analysis|Suggested|Warning|Reminder|Do not provide|Is there a way):?\s",
+        r"\b(?:[Ss]uggested|Follow\-?|Explanation|Conclusion|Analysis|Note|Warning|Reminder|Do not provide|Is there a way):?\s",
         text,
         flags=re.I,
     )
     text = cut[0].strip()
-    # collapse stray blank lines
+    # clip hard repetition loops (a known small-model failure mode)
+    text = _clip_repetition(text)
     text = re.sub(r"\n{2,}", "\n", text).strip()
+    return text
+
+
+def _clip_repetition(text: str, window: int = 90, min_len: int = 40) -> str:
+    """Cut the text at the first point a long chunk repeats itself."""
+    lowered = text.lower()
+    i = 0
+    while i + window <= len(lowered):
+        chunk = lowered[i : i + window]
+        if len(chunk) >= min_len and chunk in lowered[i + 1 :]:
+            return text[:i].rstrip()
+        i += 1
     return text
 
 
