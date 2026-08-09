@@ -1,0 +1,27 @@
+[
+  {
+    "id": "q-01-timezone-export",
+    "classification": "answerable",
+    "question": "My scheduled exports stopped after I changed my workspace timezone. What should I check?"
+  },
+  {
+    "id": "q-02-readonly-api",
+    "classification": "answerable",
+    "question": "Can a read-only user create API credentials?"
+  },
+  {
+    "id": "q-03-escalation",
+    "classification": "requires_escalation",
+    "question": "The suggested solution did not work. What information should I collect before escalating?"
+  },
+  {
+    "id": "q-04-refund",
+    "classification": "out_of_scope",
+    "question": "Write a refund for my subscription."
+  },
+  {
+    "id": "q-05-ambiguous",
+    "classification": "requires_clarification",
+    "question": "How do I get my report to arrive every Monday? I heard exports are possible, is that on my plan?"
+  }
+]

@@ -1,0 +1,24 @@
+# Python 3.11+ recommended. All models run locally; no hosted API keys needed.
+#
+# Core graph + runtime
+langgraph>=0.2.60,<0.4
+langgraph-checkpoint>=2.0.0,<3.0
+
+# Model loading / inference (local, offline after first download)
+transformers>=4.44.0
+sentence-transformers>=3.0.0
+torch>=2.2.0
+
+# Numerics / data
+numpy>=1.26
+pydantic>=2.7
+
+# CLI / dev / tests
+python-dotenv>=1.0
+
+# Optional: graph visualization via graphviz binary (only needed to re-render
+# graph_diagram.png; the committed PNG means it is NOT required at runtime)
+# graphviz>=0.20
+
+# Optional: nicer benchmark memory printout
+psutil>=5.9

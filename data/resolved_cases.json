@@ -1,0 +1,98 @@
+[
+  {
+    "id": "case-001",
+    "question": "My scheduled exports stopped after I changed my workspace timezone.",
+    "resolution": "Ask the user to reopen the export config and confirm the recomputed next-run time in the new workspace timezone. The timezone change shifted the schedule out of valid hours; the fix is to save the export again so it recomputes the next slot. Retention was confirmed fine.",
+    "tags": ["scheduled-exports", "workspace-settings", "timezone"],
+    "doc_refs": ["scheduled-exports.md", "workspace-settings.md"],
+    "resolved": true
+  },
+  {
+    "id": "case-002",
+    "question": "Can a read-only user create API credentials?",
+    "resolution": "No. Only Owner and Admin roles can access the API credentials page. Read-only and Editor roles receive 403 from the credentials endpoint.",
+    "tags": ["api-credentials", "roles"],
+    "doc_refs": ["user-roles-and-permissions.md", "api-credentials.md"],
+    "resolved": true
+  },
+  {
+    "id": "case-003",
+    "question": "The suggested solution did not work. What should I collect before escalating?",
+    "resolution": "Gather the diagnostic packet: user email, workspace slug, original solution tried, run ID or correlation ID, exact error text, workspace timezone and plan. Escalations missing the packet are returned.",
+    "tags": ["escalation", "troubleshooting", "diagnostics"],
+    "doc_refs": ["escalation-procedure.md", "troubleshooting-and-logging.md", "scheduled-exports.md"],
+    "resolved": true
+  },
+  {
+    "id": "case-004",
+    "question": "Write a refund for my subscription.",
+    "resolution": "Out of scope for this system. Refunds cannot be written by the support assistant; customers request a refund through Settings > Billing for self-service cases, and disputes after 14 days go to the finance desk via a Billing/Refund ticket.",
+    "tags": ["billing", "refund", "out-of-scope"],
+    "doc_refs": ["billing-subscriptions.md"],
+    "resolved": true
+  },
+  {
+    "id": "case-005",
+    "question": "Which plan includes scheduled exports?",
+    "resolution": "Scheduled exports require at least the Workspace (paid) plan. Enterprise adds monthly cadence and SSO. Starter includes dashboards only.",
+    "tags": ["plans", "scheduled", "billing"],
+    "doc_refs": ["billing-subscriptions.md", "scheduled-exports.md"],
+    "resolved": true
+  },
+  {
+    "id": "case-006",
+    "question": "How do I create an API credential?",
+    "resolution": "Sign in as Owner or Admin; open Settings > API credentials; Create key; copy the secret once. Editor/Read-only cannot.",
+    "tags": ["api-credentials"],
+    "doc_refs": ["api-credentials.md"],
+    "resolved": true
+  },
+  {
+    "id": "case-007",
+    "question": "Is 2FA optional?",
+    "resolution": "Yes. 2FA is optional per-account but mandatory for admins when the workspace enables 'require 2FA for admins'. Owners can reset 2FA for lost-device users.",
+    "tags": ["authentication", "2fa"],
+    "doc_refs": ["authentication.md"],
+    "resolved": true
+  },
+  {
+    "id": "case-008",
+    "question": "I'm getting 403 Invalid or restricted token.",
+    "resolution": "The key was revoked, expired, or the user role does not allow API access. Rotate and reissue scoped key under Owner/Admin.",
+    "tags": ["api-credentials", "authentication", "error"],
+    "doc_refs": ["api-credentials.md", "authentication.md"],
+    "resolved": true
+  },
+  {
+    "id": "case-009",
+    "question": "Export failed with report_not_found.",
+    "resolution": "Check the export log row for status failed/reason_code. Confirm the source report still exists and matches the reference; retention pruning of the dataset produces the same error.",
+    "tags": ["scheduled", "troubleshooting", "retention"],
+    "doc_refs": ["scheduled-exports.md", "troubleshooting-and-logging.md", "data-retention.md"],
+    "resolved": true
+  },
+  {
+    "id": "case-010",
+    "question": "My daily digest email stopped arriving.",
+    "resolution": "Verify the notification category is enabled, the member email is verified, and check the digest is scheduled at 08:00 workspace timezone. Silent failures leave no notification row in the log.",
+    "tags": ["notifications", "email", "timezone"],
+    "doc_refs": ["notifications.md", "workspace-settings.md"],
+    "resolved": true
+  },
+  {
+    "id": "case-011",
+    "question": "Can we pin data to a region?",
+    "resolution": "Region pinning is an Enterprise feature. Contact the sales team via a Billing/Refund ticket if the workspace is on a different plan.",
+    "tags": ["billing", "enterprise", "data"],
+    "doc_refs": ["billing-subscriptions.md", "data-retention.md"],
+    "resolved": true
+  },
+  {
+    "id": "case-012",
+    "question": "We got a failed payment notice.",
+    "resolution": "Charge is retried 3 times over 7 days before downgrade to FreeStarter; this is standard and no action may be needed until the window closes.",
+    "tags": ["billing", "payment"],
+    "doc_refs": ["billing-subscriptions.md", "notifications.md"],
+    "resolved": true
+  }
+]

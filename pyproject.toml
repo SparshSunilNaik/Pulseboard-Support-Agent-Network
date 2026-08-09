@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "support-agent-network"
+version = "1.0.0"
+description = "Fully-local LangGraph support agent network for the fictional Pulseboard SaaS."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "AI Engineer Internship" }]
+dependencies = [
+    "langgraph>=0.2.60,<0.4",
+    "langgraph-checkpoint>=2.0.0,<3.0",
+    "transformers>=4.44.0",
+    "sentence-transformers>=3.0.0",
+    "torch>=2.2.0",
+    "numpy>=1.26",
+    "pydantic>=2.7",
+]
+
+[project.scripts]
+support-agent = "support_agent.cli:main"
+
+[tool.setuptools]
+packages = ["support_agent"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]
