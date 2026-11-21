@@ -18,33 +18,7 @@
   --chip-ink: #FFFFFF;
   color-scheme: light;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #0E1530;
-    --paper-2: #151E3E;
-    --sheet: #18224A;
-    --ink: #E7ECF7;
-    --ink-2: #A6B1CC;
-    --rule: #2B3866;
-    --station: #0E1530;
-    --line-answer: #6F8BFF;
-    --line-handoff: #E2669E;
-    --line-retry: #F2B83A;
-    --line-trunk: #E7ECF7;
-    --dim: #2E3B6B;
-    --focus: #9DB0FF;
-    --code-bg: #070C1F;
-    --code-ink: #E7ECF7;
-    --chip-ink: #0E1530;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --paper: #0E1530; --paper-2: #151E3E; --sheet: #18224A; --ink: #E7ECF7; --ink-2: #A6B1CC;
-  --rule: #2B3866; --station: #0E1530; --line-answer: #6F8BFF; --line-handoff: #E2669E;
-  --line-retry: #F2B83A; --line-trunk: #E7ECF7; --dim: #2E3B6B; --focus: #9DB0FF;
-  --code-bg: #070C1F; --code-ink: #E7ECF7; --chip-ink: #0E1530; color-scheme: dark;
-}
+/* Light theme only, on purpose: the page should look the same for every visitor. */
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
