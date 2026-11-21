@@ -346,6 +346,20 @@
     `<li class="bar"><span class="bar-name">${n}</span><span class="bar-track"><span class="bar-fill" style="width:${(v / max) * 82}%;--c:var(--line-${line})"></span><span class="bar-val">${v.toFixed(2)}&nbsp;s</span></span></li>`
   ).join("");
 
+  /* ---------- theme toggle ---------- */
+  const toggle = $("theme-toggle");
+  const root = document.documentElement;
+  const metaTheme = document.querySelector('meta[name="theme-color"]');
+  const syncToggle = () => toggle.setAttribute("aria-pressed", String(root.dataset.theme === "dark"));
+  syncToggle();
+  toggle.addEventListener("click", () => {
+    const dark = root.dataset.theme !== "dark";
+    if (dark) root.dataset.theme = "dark"; else delete root.dataset.theme;
+    metaTheme.content = dark ? "#0E1530" : "#EDF0F5";
+    try { localStorage.setItem("theme", dark ? "dark" : "light"); } catch (e) {}
+    syncToggle();
+  });
+
   /* ---------- copy buttons ---------- */
   document.querySelectorAll(".copy").forEach((btn) => {
     btn.addEventListener("click", async () => {
